@@ -36,3 +36,7 @@ Version 1.0.0 is the standalone packaging version, not a claim that inherited fe
 ## Fullscreen Store launch
 
 Version 1.0.1 adds a full-terminal interface when launched through the Store. Python 3 with curses and an interactive terminal are required. The original source remains available directly. Arrow keys select, Enter opens, and Q/Esc returns. Original commands temporarily take over the terminal for their prompts and output, then return to the full-terminal menu. Nested selection menus now use fullscreen arrow-key lists through controls-fullscreen.sh. Original source is unchanged; commands and free-form/password/confirmation prompts temporarily retain the terminal. CoolPi fullscreen self-updates fetch the matching fullscreen shell, not the original plain-menu shell. Passwords, sudo, confirmations, package changes and original limitations retain their old behavior. No administrative/package/transfer action ran during validation. Linux terminal checks passed; physical Raspberry Pi and non-Linux systems are untested.
+
+## Security update 1.0.2
+
+Direct self-download/update is removed from both the original and fullscreen launch paths. No startup download, predictable /tmp updater or updater symlink setup. The separate update helper is a read-only notice. Use the Store's pinned-commit full-code review and confirmation flow to update. Other administrative menu actions retain their prompts and can change the system. Not a sandbox, and real Pi testing remains outstanding.
