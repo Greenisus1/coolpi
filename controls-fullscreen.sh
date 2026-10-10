@@ -12,50 +12,15 @@ UI_ROOT=$(cd -- "$(dirname -- "$0")" && pwd)
 # --- Configuration and Global Variables ---
 SCRIPT_URL="https://raw.githubusercontent.com/Greenisus1/coolpi/main/controls-fullscreen.sh"  # URL to fetch latest script version for self-update
 SCRIPT_PATH="$(realpath "$0")"
-VERSION="1.0.1"  # Script version
+VERSION="1.0.2"  # Script version
 
 # Colors for output (optional, using plain text for simplicity)
 # e.g., GREEN='\e[32m'; RED='\e[31m'; NC='\e[0m'
 
 # --- Self-Update Function ---
 update_script() {
-    # This function checks for a newer version of this script and updates it if available.
-    echo "Checking for script updates..."
-    # Fetch the latest script from the defined URL
-    if command -v curl >/dev/null 2>&1; then
-        curl -sfL "$SCRIPT_URL" -o /tmp/coolpi_update.sh
-    else
-        echo "Error: 'curl' is not installed. Cannot check for updates."
-        return 1
-    fi
-    if [ ! -s /tmp/coolpi_update.sh ]; then
-        echo "No update found (or failed to download update)."
-        rm -f /tmp/coolpi_update.sh
-        return 1
-    fi
-    # Optionally compare version numbers (not implemented; always update if file is fetched)
-    # You could source /tmp/coolpi_update.sh and compare VERSION variables if maintained.
-    if cmp -s /tmp/coolpi_update.sh "$SCRIPT_PATH"; then
-        echo "Current fullscreen script is already up to date."
-        rm -f /tmp/coolpi_update.sh
-        return 0
-    fi
-    echo "Update found! Applying update..."
-    # Replace current script file with the new one
-    cp -f /tmp/coolpi_update.sh "$SCRIPT_PATH" && chmod +x "$SCRIPT_PATH"
-    rm -f /tmp/coolpi_update.sh
-    echo "CoolPi script has been updated. Restarting..."
-    exec "$SCRIPT_PATH" "$@"   # Re-run the script with same arguments (if any)
-}
-
-# --- Symlink Setup Function ---
-ensure_symlink() {
-    # Create or update symlink /usr/local/bin/update-coolpi pointing to this script for quick updates
-    local link="/usr/local/bin/update-coolpi"
-    # Only attempt if we have write permission or using sudo
-    if [ "$(readlink -f "$link")" != "$SCRIPT_PATH" ]; then
-        sudo ln -sf "$SCRIPT_PATH" "$link" >/dev/null 2>&1 || return 0
-    fi
+    echo 'Direct self-update removed for security. Use the Store reviewed update flow.'
+    return 0
 }
 
 # --- System Utilities Functions ---
@@ -508,10 +473,9 @@ if [[ "$(basename "$0")" == "update-coolpi" ]]; then
 fi
 
 # Ensure the update symlink is in place (attempt silently)
-ensure_symlink
 
 # If run without arguments, automatically check for updates on start
-update_script  # you can comment this out to disable auto-update on each run
+
 
 # Main menu loop
 while true; do
